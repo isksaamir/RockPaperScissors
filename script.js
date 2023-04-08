@@ -14,12 +14,12 @@ function getComputerChoice() {
 }
 
 function playRound(playerSelection, computerSelection) {
-  playerSelection = playerSelection.toLowerCase();
-  computerSelection = computerSelection.toLowerCase();
+  //playerSelection = playerSelection.toLowerCase();
+  //computerSelection = computerSelection.toLowerCase();
   if (
-    (computerSelection == 'rock' && playerSelection == 'paper') ||
-    (computerSelection == 'paper' && playerSelection == 'scissors') ||
-    (computerSelection == 'scissors' && playerSelection == 'rock')
+    (computerSelection == 'Rock' && playerSelection == 'Paper') ||
+    (computerSelection == 'Paper' && playerSelection == 'Scissors') ||
+    (computerSelection == 'Scissors' && playerSelection == 'Rock')
   ) {
     userScore++;
     return 'You won!';
@@ -31,20 +31,32 @@ function playRound(playerSelection, computerSelection) {
   }
 }
 
-for (let i = 0; i < 5; i++) {
-  function game() {
-    const playerSelection = prompt('Choose rock, paper, or scissors.');
-    const computerSelection = getComputerChoice();
-    const result = playRound(playerSelection, computerSelection);
-    alert(result + '\n\nUser Score: ' + userScore + '\nComputer Score: ' + compScore);
-  }
-  game();
+
+function game() {
+  const btns = document.querySelectorAll('.btn');
+  let playerSelection; 
+  let winner = '';
+  
+  btns.forEach((btn)=>{
+    btn.addEventListener('click',()=>{
+      playerSelection = btn.value;
+      const computerSelection = getComputerChoice();
+      const result = playRound(playerSelection, computerSelection);
+      alert(result + '\n\nUser Score: ' + userScore + '\nComputer Score: ' + compScore);
+      
+      if (userScore >= 5 || compScore >= 5) {
+        if (userScore > compScore) {
+          winner = 'Congratulations! You won the game!';
+        } else if (userScore < compScore) {
+          winner = 'Sorry, you lost the game.';
+        } else {
+          winner = 'The game ended in a tie.';
+        }
+
+        alert(winner + '\n\nFinal Score: User ' + userScore + ' - ' + compScore + ' Computer');
+      }
+    });
+  });
 }
 
-if (userScore > compScore) {
-  alert('Congratulations! You won the game!');
-} else if (userScore < compScore) {
-  alert('Sorry, you lost the game.');
-} else {
-  alert('The game ended in a tie.');
-}
+game();
